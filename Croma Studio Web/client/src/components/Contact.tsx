@@ -59,7 +59,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg text-[#212121]">Días Laborables</h4>
-                  <p className="text-gray-700">Lunes a Viernes: 9am - 6pm</p>
+                  <p className="text-gray-700">Lunes a Viernes: 9am - 7pm</p>
                   <p className="text-gray-700">Sábado: 10am - 2pm</p>
                   <p className="text-gray-700">Domingo: Cerrado</p>
                 </div>
