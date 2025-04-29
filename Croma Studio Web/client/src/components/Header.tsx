@@ -88,7 +88,7 @@ const Header = () => {
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#2180de] to-[#64b5f6] animate-spin opacity-75 blur-sm"></div>
             <div className="relative h-full w-full rounded-full overflow-hidden bg-white">
               <img 
-                src="https://myunitecedu-my.sharepoint.com/:i:/g/personal/marco_gutierrezo_my_unitec_edu_mx/EcW2M-ll88JOjFxErG2EV54BIKHumQ_HoxuMHQMv2weuyw?e=A3ib3P" 
+                src="https://i.postimg.cc/ZRN3gZCc/Croma-Studio-Logo.png" 
                 alt="Croma Logo" 
                 className="h-full w-full object-cover"
               />
