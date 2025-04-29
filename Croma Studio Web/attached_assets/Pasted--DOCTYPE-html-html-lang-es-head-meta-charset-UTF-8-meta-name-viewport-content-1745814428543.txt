@@ -1,0 +1,2576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Croma Studio | Sublimación Profesional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary: #1e88e5;
+            --primary-dark: #1565c0;
+            --primary-light: #42a5f5;
+            --secondary: #ff7043;
+            --accent: #64b5f6;
+            --light: #F5F5F5;
+            --dark: #212121;
+            --text: #333;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            10% { transform: rotate(14deg); }
+            20% { transform: rotate(-8deg); }
+            30% { transform: rotate(14deg); }
+            40% { transform: rotate(-4deg); }
+            50% { transform: rotate(10deg); }
+            60% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes timeline {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 5px rgba(30, 136, 229, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(30, 136, 229, 0.8); }
+            100% { text-shadow: 0 0 5px rgba(30, 136, 229, 0.5); }
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Fondo animado mejorado */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #1e88e5, #42a5f5, #64b5f6, #42a5f5, #1e88e5);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s infinite linear;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            padding: 3px;
+            box-shadow: 0 0 10px rgba(30, 136, 229, 0.5);
+        }
+
+        .logo-text {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            display: block;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            color: var(--dark);
+        }
+
+        /* Menú de navegación */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            transition: all 0.3s;
+            padding: 5px 0;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+            transform-origin: left;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 2px;
+            animation: titleGlow 3s infinite;
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            background: linear-gradient(to right, #ffffff, #e3f2fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            border-right: 3px solid var(--secondary);
+            animation: 
+                typing 3.5s steps(30, end),
+                blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--secondary); }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            color: #e3f2fd;
+            animation: fadeIn 1s ease-in-out 0.5s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            animation: fadeIn 1s ease-in-out 1s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            background-color: #E64A19;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Secciones */
+        .section {
+            padding: 100px 5%;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            display: inline-block;
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            bottom: -10px;
+            left: 25%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            animation: timeline 1.5s forwards;
+        }
+
+        /* Productos */
+        .product-category-title {
+            text-align: center;
+            margin: 50px 0 20px;
+            color: var(--primary);
+            font-size: 1.8rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-category {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .product-price span {
+            font-size: 0.9rem;
+            color: #666;
+            text-decoration: line-through;
+            margin-left: 5px;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .add-to-cart {
+            flex-grow: 1;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .wishlist {
+            width: 40px;
+            background-color: var(--light);
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .wishlist:hover {
+            color: red;
+            background-color: rgba(255, 0, 0, 0.1);
+        }
+
+        /* Modal de personalización */
+        .customization-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .customization-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: fadeIn 0.3s;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .customization-title {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .customization-option {
+            margin-bottom: 20px;
+        }
+
+        .customization-option h4 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .size-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .size-option {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .size-option:hover, .size-option.selected {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .design-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .design-upload:hover {
+            border-color: var(--primary);
+        }
+
+        .design-upload i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .design-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 15px;
+            display: none;
+            border-radius: 5px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background-color: var(--light);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .specifications {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 80px;
+            margin-top: 10px;
+        }
+
+        .customization-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* Servicios */
+        .services-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .service-card:hover .service-icon {
+            animation: wave 2s ease;
+        }
+
+        .service-title {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .service-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Proceso con animación mejorada */
+        .process {
+            padding: 80px 5%;
+            background-color: white;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 50px auto 0;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--light);
+            z-index: 1;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            width: 20%;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .process-steps::before {
+            animation: timeline 2s forwards;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 15px;
+            box-shadow: 0 5px 15px rgba(30, 136, 229, 0.3);
+            transition: all 0.3s;
+        }
+
+        .process-step:hover .step-number {
+            transform: scale(1.1);
+            background-color: var(--secondary);
+        }
+
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .step-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Galería */
+        .gallery {
+            padding: 80px 5%;
+            background-color: var(--light);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 30px auto 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            height: 250px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            padding: 20px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Testimonios */
+        .testimonials {
+            background-color: var(--light);
+            padding: 80px 5%;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 5rem;
+            color: rgba(30, 136, 229, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-content {
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #555;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Nosotros */
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-description {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .about-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .value-card {
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .value-card:hover .value-icon {
+            transform: rotate(15deg);
+            color: var(--secondary);
+        }
+
+        .value-title {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .value-description {
+            color: #666;
+        }
+
+        /* Contacto rediseñado */
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-info {
+            margin-bottom: 30px;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-hours {
+            margin-top: 30px;
+        }
+
+        .contact-hours h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .contact-hours p {
+            margin-bottom: 10px;
+        }
+
+        .contact-social {
+            margin-top: 30px;
+        }
+
+        .contact-social h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: var(--primary);
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px);
+            color: var(--secondary);
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-form h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 5% 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+        }
+
+        .footer-column p, .footer-column a {
+            color: #bbb;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .payment-methods i {
+            font-size: 2rem;
+            color: #bbb;
+        }
+
+        .copyright {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        /* Carrito de compras */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            transition: right 0.3s;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-header h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: transform 0.3s;
+        }
+
+        .close-cart:hover {
+            transform: rotate(90deg);
+        }
+
+        .cart-items {
+            padding: 20px;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+        }
+
+        .cart-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            background-color: var(--light);
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background-color: #ddd;
+        }
+
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff5252;
+            cursor: pointer;
+            margin-left: auto;
+            align-self: flex-start;
+            transition: transform 0.3s;
+        }
+
+        .remove-item:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-summary {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #E64A19;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .process-steps {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 40px;
+            }
+            
+            .process-step {
+                width: 40%;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .cart-sidebar {
+                width: 350px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .section {
+                padding: 70px 5%;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .process-step {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-column h3::after {
+                left: 25%;
+                width: 50%;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .payment-methods {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo animado mejorado -->
+    <div class="animated-bg"></div>
+    <div class="particles" id="particles"></div>
+    
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="Croma Studio Logo.jpeg" alt="Croma Studio Logo">
+                <div class="logo-text">
+                    CROMA
+                    <span>STUDIO</span>
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#proceso">Proceso</a></li>
+                    <li><a href="#galeria">Galería</a></li>
+                    <li><a href="#testimonios">Testimonios</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li>
+                        <div class="cart-icon" id="cartIcon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1 class="animated-title"><span>Personaliza tu Mundo</span></h1>
+            <p class="animated-subtitle">Transformamos tus ideas en productos únicos con la más alta calidad en sublimación y DTF</p>
+            <div class="hero-buttons">
+                <a href="#productos" class="btn pulse-animation">Ver Catálogo</a>
+                <a href="#contacto" class="btn btn-outline pulse-animation">Contactar</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Productos -->
+    <section class="section" id="productos">
+        <div class="section-title">
+            <h2 class="animated-heading">Nuestros Productos</h2>
+        </div>
+        
+        <!-- Playeras Sublimación -->
+        <h3 class="product-category-title">Playeras Sublimación</h3>
+        <div class="products-grid">
+            <!-- Producto 1 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Playera manga corta dama">
+                    <span class="product-badge">Popular</span>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Playeras Sublimación</span>
+                    <h3 class="product-title">Playera Cuello Redondo Manga Corta Dama</h3>
+                    <p class="product-description">100% poliéster, ideal para sublimación. Colores vibrantes que duran.</p>
+                    <div class="product-price">$180.00 <span>$220.00</span></div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="1" data-name="Playera Cuello Redondo Manga Corta Dama" data-price="180" data-image="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producto 2 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1527719327859-c6ce80353573?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Playera tipo polo">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Playeras Sublimación</span>
+                    <h3 class="product-title">Playera Tipo Polo Manga Corta Caballero</h3>
+                    <p class="product-description">Estilo clásico, 100% poliéster. Perfecta para diseños complejos.</p>
+                    <div class="product-price">$250.00 <span>$290.00</span></div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="2" data-name="Playera Tipo Polo Manga Corta Caballero" data-price="250" data-image="https://images.unsplash.com/photo-1527719327859-c6ce80353573?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producto 3 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Playera manga larga">
+                    <span class="product-badge">Nuevo</span>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Playeras Sublimación</span>
+                    <h3 class="product-title">Playera Cuello Redondo Manga Larga Caballero</h3>
+                    <p class="product-description">Comodidad y estilo en todas las temporadas.</p>
+                    <div class="product-price">$220.00</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="3" data-name="Playera Cuello Redondo Manga Larga Caballero" data-price="220" data-image="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producto 4 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Playera infantil">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Playeras Sublimación</span>
+                    <h3 class="product-title">Playera Cuello Redondo Manga Corta Niños</h3>
+                    <p class="product-description">Tamaños para niños de 2 a 12 años. Diseños divertidos.</p>
+                    <div class="product-price">$180.00</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="4" data-name="Playera Cuello Redondo Manga Corta Niños" data-price="180" data-image="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Playeras DTF -->
+        <h3 class="product-category-title">Playeras DTF</h3>
+        <div class="products-grid">
+            <!-- Producto 5 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Playera DTF dama">
+                    <span class="product-badge">Popular</span>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Playeras DTF</span>
+                    <h3 class="product-title">Playera Cuello Redondo Manga Corta Dama (DTF)</h3>
+                    <p class="product-description">Algodón o poliéster, alta calidad de impresión.</p>
+                    <div class="product-price">$180.00 <span>$220.00</span></div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="5" data-name="Playera Cuello Redondo Manga Corta Dama (DTF)" data-price="180" data-image="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producto 6 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1527719327859-c6ce80353573?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Playera DTF caballero">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Playeras DTF</span>
+                    <h3 class="product-title">Playera Cuello Redondo Manga Corta Caballero (DTF)</h3>
+                    <p class="product-description">Algodón o poliéster, gran durabilidad.</p>
+                    <div class="product-price">$200.00 <span>$240.00</span></div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="6" data-name="Playera Cuello Redondo Manga Corta Caballero (DTF)" data-price="200" data-image="https://images.unsplash.com/photo-1527719327859-c6ce80353573?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producto 7 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Playera DTF manga larga caballero">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Playeras DTF</span>
+                    <h3 class="product-title">Playera Cuello Redondo Manga Larga Caballero (DTF)</h3>
+                    <p class="product-description">Algodón o poliéster, ideal para todas las temporadas.</p>
+                    <div class="product-price">$250.00</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="7" data-name="Playera Cuello Redondo Manga Larga Caballero (DTF)" data-price="250" data-image="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producto 8 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Playera DTF manga larga dama">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Playeras DTF</span>
+                    <h3 class="product-title">Playera Cuello Redondo Manga Larga Dama (DTF)</h3>
+                    <p class="product-description">Algodón o poliéster, comodidad y estilo.</p>
+                    <div class="product-price">$230.00</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="8" data-name="Playera Cuello Redondo Manga Larga Dama (DTF)" data-price="230" data-image="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tazas -->
+        <h3 class="product-category-title">Tazas Personalizadas</h3>
+        <div class="products-grid">
+            <!-- Producto 9 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Taza cerámica">
+                    <span class="product-badge">Popular</span>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Tazas</span>
+                    <h3 class="product-title">Taza de Cerámica Tradicional 11 Oz</h3>
+                    <p class="product-description">Cerámica de alta calidad, resistente al microondas y lavavajillas.</p>
+                    <div class="product-price">$100.00 <span>$120.00</span></div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="9" data-name="Taza de Cerámica Tradicional 11 Oz" data-price="100" data-image="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producto 10 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1577968897966-3d4325b36b61?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Taza mágica">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Tazas</span>
+                    <h3 class="product-title">Taza Mágica Cambiante con Calor 12 Oz</h3>
+                    <p class="product-description">Cambia de color con el calor. ¡Sorprende a tus clientes!</p>
+                    <div class="product-price">$150.00</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="10" data-name="Taza Mágica Cambiante con Calor 12 Oz" data-price="150" data-image="https://images.unsplash.com/photo-1577968897966-3d4325b36b61?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producto 11 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Taza con cuchara">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Tazas</span>
+                    <h3 class="product-title">Taza con Cuchara 11 Oz</h3>
+                    <p class="product-description">Incluye cuchara integrada. Ideal para café o té.</p>
+                    <div class="product-price">$130.00</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="11" data-name="Taza con Cuchara 11 Oz" data-price="130" data-image="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Producto 12 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1578926375602-e5f19c9f6398?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Vaso con tapa">
+                    <span class="product-badge">Nuevo</span>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Tazas</span>
+                    <h3 class="product-title">Vaso de Cerámica con Tapa 12 Oz</h3>
+                    <p class="product-description">Tapa de silicón antiderrames. Perfecto para viajes.</p>
+                    <div class="product-price">$140.00</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart" data-id="12" data-name="Vaso de Cerámica con Tapa 12 Oz" data-price="140" data-image="https://images.unsplash.com/photo-1578926375602-e5f19c9f6398?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">Personalizar</button>
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Servicios -->
+    <section class="section" id="servicios" style="background-color: var(--light);">
+        <div class="section-title">
+            <h2 class="animated-heading">Nuestros Servicios</h2>
+        </div>
+        
+        <div class="services-container">
+            <div class="services-grid">
+                <!-- Servicio 1 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3 class="service-title">Sublimación Textil</h3>
+                    <p class="service-description">Personalización de playeras, sudaderas y más con tecnología de sublimación para colores vibrantes y duraderos.</p>
+                </div>
+                
+                <!-- Servicio 2 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <h3 class="service-title">Personalización de Tazas</h3>
+                    <p class="service-description">Transformamos tazas comunes en piezas únicas con tus diseños favoritos, resistentes al lavado.</p>
+                </div>
+                
+                <!-- Servicio 3 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="service-title">Diseño Gráfico</h3>
+                    <p class="service-description">¿No tienes diseño? Nuestros creativos desarrollan ideas únicas adaptadas a tus necesidades.</p>
+                </div>
+                
+                <!-- Servicio 4 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <h3 class="service-title">Impresiones Digitales</h3>
+                    <p class="service-description">Tarjetas de presentación, flyers, stickers y más con la más alta calidad de impresión.</p>
+                </div>
+                
+                <!-- Servicio 5 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3 class="service-title">Fotografía de Productos</h3>
+                    <p class="service-description">Realizamos fotos profesionales de tus productos para catálogos y redes sociales.</p>
+                </div>
+                
+                <!-- Servicio 6 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3 class="service-title">Embalaje Personalizado</h3>
+                    <p class="service-description">Diseñamos empaques únicos que realzan la presentación de tus productos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Proceso -->
+    <section class="process" id="proceso">
+        <div class="section-title">
+            <h2 class="animated-heading">Nuestro Proceso</h2>
+        </div>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-title">Consulta</div>
+                <div class="step-description">Platicamos sobre tu proyecto y necesidades</div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-title">Diseño</div>
+                <div class="step-description">Creamos propuestas personalizadas</div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-title">Aprobación</div>
+                <div class="step-description">Revisamos y ajustamos según tus comentarios</div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-title">Producción</div>
+                <div class="step-description">Fabricamos tus productos con la más alta calidad</div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">5</div>
+                <div class="step-title">Entrega</div>
+                <div class="step-description">Recibes tus productos listos para usar</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Galería -->
+    <section class="gallery" id="galeria">
+        <div class="section-title">
+            <h2 class="animated-heading">Galería de Trabajos</h2>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Trabajo 1">
+                <div class="gallery-overlay">
+                    <h3>Playeras Personalizadas</h3>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Trabajo 2">
+                <div class="gallery-overlay">
+                    <h3>Tazas Creativas</h3>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Trabajo 3">
+                <div class="gallery-overlay">
+                    <h3>Termos Personalizados</h3>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Trabajo 4">
+                <div class="gallery-overlay">
+                    <h3>Diseños Infantiles</h3>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1577968897966-3d4325b36b61?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Trabajo 5">
+                <div class="gallery-overlay">
+                    <h3>Tazas Mágicas</h3>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Trabajo 6">
+                <div class="gallery-overlay">
+                    <h3>Regalos Corporativos</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Testimonios -->
+    <section class="testimonials" id="testimonios">
+        <div class="section-title">
+            <h2 class="animated-heading">Lo que dicen nuestros clientes</h2>
+        </div>
+        
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    "Excelente calidad en las playeras, los colores son muy vibrantes y el diseño quedó exactamente como lo quería. ¡Super recomendados!"
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Cliente 1">
+                    </div>
+                    <div class="author-info">
+                        <h4>María González</h4>
+                        <p>Dueña de Cafetería</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    "Hicimos los termos para nuestro equipo de trabajo y quedaron espectaculares. El servicio al cliente es muy atento y profesional."
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Cliente 2">
+                    </div>
+                    <div class="author-info">
+                        <h4>Carlos Mendoza</h4>
+                        <p>Director de Marketing</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    "Las tazas mágicas que pedí para el cumpleaños de mi hija fueron un éxito. Todos quedaron sorprendidos con el efecto de cambio de color."
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cliente 3">
+                    </div>
+                    <div class="author-info">
+                        <h4>Laura Sánchez</h4>
+                        <p>Madre y Cliente</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección Nosotros -->
+    <section class="section" id="nosotros">
+        <div class="section-title">
+            <h2 class="animated-heading">Sobre Nosotros</h2>
+        </div>
+        
+        <div class="about-container">
+            <p class="about-description">
+                Croma Studio nació en 2025 con la pasión por transformar ideas en productos únicos. Somos especialistas en sublimación y personalización, comprometidos con la calidad, la creatividad y la satisfacción de nuestros clientes.
+            </p>
+            
+            <div class="about-values">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3 class="value-title">Calidad</h3>
+                    <p class="value-description">Materiales premium y procesos cuidadosos</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="value-title">Creatividad</h3>
+                    <p class="value-description">Diseños originales y personalizados</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="value-title">Pasión</h3>
+                    <p class="value-description">Amamos lo que hacemos y se nota</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="value-title">Puntualidad</h3>
+                    <p class="value-description">Entregas a tiempo siempre</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Contacto rediseñada -->
+    <section class="section" id="contacto">
+        <div class="section-title">
+            <h2 class="animated-heading">Contacto</h2>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Información de Contacto</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Ciudad de México, México</p>
+                <p><i class="fas fa-phone-alt"></i> 55 39 15 30 56 / +52 1 55 1920 0869</p>
+                <p><i class="fas fa-envelope"></i> cromastudiof@gmail.com</p>
+                
+                <div class="contact-hours">
+                    <h3>Horario de Atención</h3>
+                    <p><strong>Lunes a Viernes:</strong> 9:00 am - 6:00 pm</p>
+                    <p><strong>Sábados:</strong> 10:00 am - 2:00 pm</p>
+                </div>
+                
+                <div class="contact-social">
+                    <h3>Redes Sociales</h3>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/share/14xMva4GZ2/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/cromastudio_oficial?igsh=Nmd5ZjZ2bHYyd2h6&utm_source=qr" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/525542424621" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div id="map"></div>
+            </div>
+            
+            <div class="contact-form">
+                <h3>Envíanos un mensaje</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Teléfono</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Croma Studio</h3>
+                <p>Especialistas en sublimación y personalización de productos. Calidad y creatividad en cada pieza.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/14xMva4GZ2/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/cromastudio_oficial?igsh=Nmd5ZjZ2bHYyd2h6&utm_source=qr" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/525542424621" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Enlaces Rápidos</h3>
+                <a href="#inicio">Inicio</a>
+                <a href="#productos">Productos</a>
+                <a href="#servicios">Servicios</a>
+                <a href="#proceso">Proceso</a>
+                <a href="#galeria">Galería</a>
+                <a href="#testimonios">Testimonios</a>
+                <a href="#nosotros">Nosotros</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Ciudad de México, México</p>
+                <p><i class="fas fa-phone-alt"></i> 55 39 15 30 56 / +52 1 55 1920 0869</p>
+                <p><i class="fas fa-envelope"></i> cromastudiof@gmail.com</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Métodos de Pago</h3>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fas fa-money-bill-wave"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Croma Studio. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Modal de personalización -->
+    <div class="customization-modal" id="customizationModal">
+        <div class="customization-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h3 class="customization-title">Personaliza tu producto</h3>
+            
+            <div class="customization-option">
+                <h4>Talla</h4>
+                <div class="size-options">
+                    <div class="size-option">XS</div>
+                    <div class="size-option">S</div>
+                    <div class="size-option selected">M</div>
+                    <div class="size-option">L</div>
+                    <div class="size-option">XL</div>
+                    <div class="size-option">XXL</div>
+                </div>
+            </div>
+            
+            <div class="customization-option">
+                <h4>Color</h4>
+                <div class="size-options">
+                    <div class="size-option selected">Blanco</div>
+                    <div class="size-option">Negro</div>
+                    <div class="size-option">Azul</div>
+                    <div class="size-option">Rojo</div>
+                    <div class="size-option">Verde</div>
+                </div>
+            </div>
+            
+            <div class="customization-option">
+                <h4>Diseño</h4>
+                <div class="design-upload" id="designUpload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Arrastra tu diseño aquí o haz clic para seleccionar</p>
+                    <input type="file" id="designInput" accept="image/*" style="display: none;">
+                    <img id="designPreview" class="design-preview">
+                </div>
+            </div>
+            
+            <div class="customization-option">
+                <h4>Especificaciones adicionales</h4>
+                <textarea class="specifications" id="specifications" placeholder="Escribe aquí cualquier detalle adicional que quieras especificar..."></textarea>
+            </div>
+            
+            <div class="customization-option">
+                <h4>Cantidad</h4>
+                <div class="quantity-selector">
+                    <button class="quantity-btn" id="decreaseQty">-</button>
+                    <input type="number" class="quantity-input" id="quantityInput" value="1" min="1">
+                    <button class="quantity-btn" id="increaseQty">+</button>
+                </div>
+            </div>
+            
+            <div class="customization-actions">
+                <button class="btn btn-outline" id="cancelCustomization">Cancelar</button>
+                <button class="btn" id="addToCartFinal">Agregar al carrito</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Carrito de compras -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart-message" id="emptyCartMessage">Tu carrito está vacío</p>
+        </div>
+        
+        <div class="cart-summary">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00 MXN</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Proceder al Pago</button>
+        </div>
+    </div>
+    
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Crear partículas flotantes interactivas
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Tamaño aleatorio entre 5px y 15px
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posición aleatoria
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Opacidad aleatoria
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                // Duración de animación aleatoria
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Retraso de animación aleatorio
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Interacción con el mouse
+                particle.addEventListener('mouseover', () => {
+                    particle.style.transform = 'scale(1.5)';
+                    particle.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                });
+                
+                particle.addEventListener('mouseout', () => {
+                    particle.style.transform = 'scale(1)';
+                    particle.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+                });
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Inicializar partículas
+        createParticles();
+
+        // Smooth scrolling para enlaces
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animaciones al hacer scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.product-card, .testimonial-card, .process-step, .gallery-item, .service-card, .value-card, .about-description');
+            
+            elements.forEach((element, index) => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    // Añadir un pequeño retraso basado en el índice para un efecto escalonado
+                    element.style.animationDelay = `${index * 0.1}s`;
+                    element.classList.add('fade-in');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Ejecutar al cargar la página
+
+        // Inicializar mapa
+        function initMap() {
+            const map = L.map('map').setView([19.4326, -99.1332], 13);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            L.marker([19.4326, -99.1332]).addTo(map)
+                .bindPopup('Croma Studio<br>Ciudad de México')
+                .openPopup();
+        }
+
+        // Carrito de compras
+        let cart = [];
+        const cartIcon = document.getElementById('cartIcon');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const closeCart = document.getElementById('closeCart');
+        const overlay = document.getElementById('overlay');
+        const cartItemsContainer = document.getElementById('cartItems');
+        const emptyCartMessage = document.getElementById('emptyCartMessage');
+        const cartTotalElement = document.getElementById('cartTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        // Modal de personalización
+        const customizationModal = document.getElementById('customizationModal');
+        const closeModal = document.getElementById('closeModal');
+        const cancelCustomization = document.getElementById('cancelCustomization');
+        const designUpload = document.getElementById('designUpload');
+        const designInput = document.getElementById('designInput');
+        const designPreview = document.getElementById('designPreview');
+        const decreaseQty = document.getElementById('decreaseQty');
+        const increaseQty = document.getElementById('increaseQty');
+        const quantityInput = document.getElementById('quantityInput');
+        const addToCartFinal = document.getElementById('addToCartFinal');
+        const specificationsInput = document.getElementById('specifications');
+        
+        let currentProduct = null;
+        let uploadedFile = null;
+
+        // Abrir/cerrar carrito
+        cartIcon.addEventListener('click', () => {
+            cartSidebar.classList.add('active');
+            overlay.classList.add('active');
+        });
+
+        closeCart.addEventListener('click', () => {
+            cartSidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            cartSidebar.classList.remove('active');
+            customizationModal.style.display = 'none';
+            overlay.classList.remove('active');
+        });
+
+        // Abrir/cerrar modal de personalización
+        closeModal.addEventListener('click', () => {
+            customizationModal.style.display = 'none';
+            overlay.classList.remove('active');
+        });
+
+        cancelCustomization.addEventListener('click', () => {
+            customizationModal.style.display = 'none';
+            overlay.classList.remove('active');
+        });
+
+        // Seleccionar talla
+        document.querySelectorAll('.size-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.size-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+
+        // Subir diseño
+        designUpload.addEventListener('click', () => {
+            designInput.click();
+        });
+
+        designInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                uploadedFile = file;
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    designPreview.src = event.target.result;
+                    designPreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Cambiar cantidad
+        decreaseQty.addEventListener('click', () => {
+            if (quantityInput.value > 1) {
+                quantityInput.value--;
+            }
+        });
+
+        increaseQty.addEventListener('click', () => {
+            quantityInput.value++;
+        });
+
+        // Agregar productos al carrito (abre modal de personalización)
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                currentProduct = {
+                    id: this.getAttribute('data-id'),
+                    name: this.getAttribute('data-name'),
+                    price: parseFloat(this.getAttribute('data-price')),
+                    image: this.getAttribute('data-image')
+                };
+                
+                customizationModal.style.display = 'flex';
+                overlay.classList.add('active');
+                
+                // Resetear modal
+                designPreview.src = '';
+                designPreview.style.display = 'none';
+                quantityInput.value = 1;
+                specificationsInput.value = '';
+                designInput.value = '';
+                uploadedFile = null;
+            });
+        });
+
+        // Confirmar personalización y agregar al carrito
+        addToCartFinal.addEventListener('click', () => {
+            if (!currentProduct) return;
+            
+            const selectedSize = document.querySelector('.size-option.selected').textContent;
+            const quantity = parseInt(quantityInput.value);
+            const specifications = specificationsInput.value;
+            
+            // Verificar si el producto ya está en el carrito
+            const existingItem = cart.find(item => 
+                item.id === currentProduct.id && 
+                item.size === selectedSize && 
+                item.specifications === specifications
+            );
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                const cartItem = {
+                    ...currentProduct,
+                    size: selectedSize,
+                    design: designPreview.src || null,
+                    specifications: specifications,
+                    quantity: quantity,
+                    file: uploadedFile
+                };
+                
+                cart.push(cartItem);
+            }
+            
+            updateCart();
+            
+            // Cerrar modal
+            customizationModal.style.display = 'none';
+            overlay.classList.remove('active');
+            
+            // Mostrar el carrito
+            cartSidebar.classList.add('active');
+            overlay.classList.add('active');
+        });
+
+        // Actualizar el carrito
+        function updateCart() {
+            // Actualizar contador
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = totalItems;
+            
+            // Actualizar lista de productos
+            if (cart.length === 0) {
+                emptyCartMessage.style.display = 'block';
+                cartItemsContainer.innerHTML = '<p class="empty-cart-message">Tu carrito está vacío</p>';
+            } else {
+                emptyCartMessage.style.display = 'none';
+                cartItemsContainer.innerHTML = '';
+                
+                cart.forEach(item => {
+                    const cartItemElement = document.createElement('div');
+                    cartItemElement.className = 'cart-item';
+                    cartItemElement.innerHTML = `
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-title">${item.name} (${item.size})</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)} MXN</div>
+                            ${item.specifications ? `<div class="cart-item-specs">Especificaciones: ${item.specifications}</div>` : ''}
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn decrease" data-id="${item.id}" data-size="${item.size}" data-specs="${encodeURIComponent(item.specifications || '')}">-</button>
+                                <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                                <button class="quantity-btn increase" data-id="${item.id}" data-size="${item.size}" data-specs="${encodeURIComponent(item.specifications || '')}">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-item" data-id="${item.id}" data-size="${item.size}" data-specs="${encodeURIComponent(item.specifications || '')}"><i class="fas fa-trash"></i></button>
+                    `;
+                    
+                    cartItemsContainer.appendChild(cartItemElement);
+                });
+                
+                // Agregar eventos a los botones de cantidad y eliminar
+                document.querySelectorAll('.decrease').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        const size = button.getAttribute('data-size');
+                        const specs = decodeURIComponent(button.getAttribute('data-specs'));
+                        const item = cart.find(item => 
+                            item.id === id && 
+                            item.size === size && 
+                            item.specifications === specs
+                        );
+                        
+                        if (item.quantity > 1) {
+                            item.quantity -= 1;
+                        } else {
+                            cart = cart.filter(item => 
+                                !(item.id === id && 
+                                item.size === size && 
+                                item.specifications === specs)
+                            );
+                        }
+                        
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.increase').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        const size = button.getAttribute('data-size');
+                        const specs = decodeURIComponent(button.getAttribute('data-specs'));
+                        const item = cart.find(item => 
+                            item.id === id && 
+                            item.size === size && 
+                            item.specifications === specs
+                        );
+                        item.quantity += 1;
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const id = button.getAttribute('data-id');
+                        const size = button.getAttribute('data-size');
+                        const specs = decodeURIComponent(button.getAttribute('data-specs'));
+                        cart = cart.filter(item => 
+                            !(item.id === id && 
+                            item.size === size && 
+                            item.specifications === specs)
+                        );
+                        updateCart();
+                    });
+                });
+            }
+            
+            // Actualizar total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotalElement.textContent = `$${total.toFixed(2)} MXN`;
+        }
+
+        // Botón de checkout
+        checkoutBtn.addEventListener('click', async () => {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+            
+            // Redirigir a WhatsApp con el pedido
+            const phoneNumber = '525539153056';
+            let message = '¡Hola! Quiero realizar el siguiente pedido:\n\n';
+            
+            cart.forEach(item => {
+                message += `- ${item.name} (Talla: ${item.size}, Cantidad: ${item.quantity} x $${item.price.toFixed(2)})\n`;
+                if (item.specifications) {
+                    message += `  Especificaciones: ${item.specifications}\n`;
+                }
+            });
+            
+            message += `\nTotal: $${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)} MXN`;
+            
+            // Crear URL de WhatsApp
+            let whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            // Si hay imágenes para enviar
+            const itemsWithFiles = cart.filter(item => item.file);
+            if (itemsWithFiles.length > 0) {
+                // Para el propósito de este ejemplo, mostraremos un mensaje
+                alert('Por favor, comparte las imágenes de tu diseño directamente en el chat de WhatsApp después de abrir el enlace.');
+                
+                // En un entorno real, podrías usar la API de WhatsApp Business para enviar archivos
+                // o subir las imágenes a un servidor y compartir el enlace
+            }
+            
+            window.open(whatsappUrl, '_blank');
+            
+            // Vaciar el carrito después del pedido
+            cart = [];
+            updateCart();
+            cartSidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // Formulario de contacto
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            
+            // Aquí podrías agregar el código para enviar el formulario
+            // Por ejemplo, usando fetch() para enviar los datos a un servidor
+            
+            alert(`Gracias ${name}, tu mensaje ha sido enviado. Nos pondremos en contacto contigo pronto.`);
+            contactForm.reset();
+        });
+
+        // Inicializar mapa cuando la página cargue
+        window.addEventListener('load', initMap);
+    </script>
+</body>
+</html>
