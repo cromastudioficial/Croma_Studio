@@ -28,7 +28,7 @@ const Footer = () => {
               <i className="fab fa-instagram"></i>
             </a>
             <a 
-              href="https://wa.me/5215519200869" 
+              href="https://wa.me/5542424621" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="bg-[#2180de]/20 p-3 rounded-full text-white hover:bg-[#2180de]/30 transition-colors"
@@ -75,8 +75,7 @@ const Footer = () => {
             <li className="flex items-start">
               <i className="fas fa-phone-alt mt-1.5 mr-3 text-[#2180de]"></i>
               <div className="text-gray-300">
-                <div>55 3915 3056</div>
-                <div>+52 1 55 1920 0869</div>
+                <div>55 4242 4621</div>
               </div>
             </li>
             <li className="flex items-start">
@@ -86,7 +85,7 @@ const Footer = () => {
             <li className="flex items-start">
               <i className="fas fa-clock mt-1.5 mr-3 text-[#2180de]"></i>
               <div className="text-gray-300">
-                <div>Lun-Vie: 9am - 6pm</div>
+                <div>Lun-Vie: 9am - 7pm</div>
                 <div>Sáb: 10am - 2pm</div>
               </div>
             </li>
