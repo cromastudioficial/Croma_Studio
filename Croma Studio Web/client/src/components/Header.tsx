@@ -85,7 +85,7 @@ const Header = () => {
       <div className="flex justify-between items-center px-[5%] py-3 max-w-7xl mx-auto">
         <div className="flex items-center gap-3">
 
-          <div className="relative h-[85px] w-[85px] rounded-full p-[1.5px] bg-gradient-to-r from-[#2180de] to-[#64b5f6] animate-pulse shadow-lg shadow-[#2180de]/30">
+          <div className="relative h-[50px] w-[50px] rounded-full p-[2px] bg-gradient-to-r from-[#2180de] to-[#64b5f6] animate-pulse shadow-lg shadow-[#2180de]/30">
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#2180de] to-[#64b5f6] animate-spin opacity-75 blur-sm"></div>
             <div className="relative h-full w-full rounded-full overflow-hidden bg-white">
               <img 
