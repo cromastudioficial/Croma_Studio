@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Croma Studio | Sublimación y DTF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
+  <body>
+    <div id="main-container">
+      <!-- Fondo con Gradiente - Canvas interactivo -->
+      <canvas id="gradient-background" class="gradient-background"></canvas>
+      
+      <!-- Header / Barra de navegación -->
+      <header class="header">
+        <div class="container">
+          <div class="logo">
+            <div class="logo-circle">
+              <img src="images/logo.jpg" alt="Croma Studio Logo">
+            </div>
+          </div>
+          
+          <nav class="nav-menu">
+            <ul>
+              <li><a href="#inicio" class="nav-link">Inicio</a></li>
+              <li><a href="#productos" class="nav-link">Productos</a></li>
+              <li><a href="#servicios" class="nav-link">Servicios</a></li>
+              <li><a href="#proceso" class="nav-link">Proceso</a></li>
+              <li><a href="#galeria" class="nav-link">Galería</a></li>
+              <li><a href="#testimonios" class="nav-link">Testimonios</a></li>
+              <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+              <li><a href="#contacto" class="nav-link">Contacto</a></li>
+            </ul>
+          </nav>
+          
+          <div class="cart-button" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <div class="cart-count">0</div>
+          </div>
+          
+          <div class="mobile-menu-button">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        
+        <!-- Carrito de compras -->
+        <div id="cart-modal" class="cart-modal">
+          <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button onclick="toggleCart()" class="close-button">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          
+          <div id="cart-items" class="cart-items">
+            <!-- Los items se añadirán dinámicamente con JavaScript -->
+            <div class="empty-cart">
+              <i class="fas fa-shopping-cart"></i>
+              <p>Tu carrito está vacío</p>
+            </div>
+          </div>
+          
+          <div class="cart-footer">
+            <div class="cart-total">
+              <span>Total:</span>
+              <span id="cart-total-amount">$0.00</span>
+            </div>
+            <button onclick="proceedToWhatsapp()" class="whatsapp-button">
+              <i class="fab fa-whatsapp"></i>
+              <span>Finalizar en WhatsApp</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Sección principal (Hero) -->
+      <section id="inicio" class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-title typing-effect">Personaliza tu Mundo</h1>
+          <p class="hero-subtitle typing-effect-subtitle">Transformamos tus ideas en productos únicos con la más alta calidad en sublimación y DTF</p>
+          <div class="hero-buttons">
+            <a href="#productos" class="btn btn-primary shine-effect">
+              <i class="fas fa-shopping-bag"></i>
+              Ver Catálogo
+            </a>
+            <a href="#contacto" class="btn btn-secondary shine-effect">
+              <i class="fas fa-envelope"></i>
+              Contactar
+            </a>
+          </div>
+        </div>
+        
+        <!-- Elementos flotantes animados -->
+        <div class="floating-elements">
+          <!-- Estos elementos se generarán con JavaScript -->
+        </div>
+      </section>
+
+      <!-- Sección de Productos -->
+      <section id="productos" class="section">
+        <div class="section-header">
+          <h2 class="section-title">Nuestros Productos</h2>
+          <div class="title-underline"></div>
+        </div>
+        
+        <!-- Categoría: Playeras Sublimación -->
+        <div class="product-category">
+          <h3 class="category-title">Playeras Sublimación</h3>
+          
+          <div class="products-grid">
+            <!-- Producto 1 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="images/image_1745815256975.png" alt="Playera Cuello Redondo Manga Corta Dama">
+                <div class="product-badge">Popular</div>
+              </div>
+              <div class="product-info">
+                <div class="product-category-tag">Playeras Sublimación</div>
+                <h4 class="product-title">Playera Cuello Redondo Manga Corta Dama</h4>
+                <p class="product-description">100% poliéster, ideal para sublimación. Colores vibrantes que duran.</p>
+                <div class="product-price">
+                  <span class="current-price">$180 MXN</span>
+                  <span class="original-price">$220 MXN</span>
+                </div>
+                <button class="btn btn-primary product-button" onclick="personalizarProducto(1)">Personalizar</button>
+              </div>
+            </div>
+            
+            <!-- Producto 2 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="images/image_1745815268901.png" alt="Playera Tipo Polo Manga Corta Caballero">
+              </div>
+              <div class="product-info">
+                <div class="product-category-tag">Playeras Sublimación</div>
+                <h4 class="product-title">Playera Tipo Polo Manga Corta Caballero</h4>
+                <p class="product-description">Estilo clásico, 100% poliéster. Perfecta para diseños complejos.</p>
+                <div class="product-price">
+                  <span class="current-price">$250 MXN</span>
+                  <span class="original-price">$290 MXN</span>
+                </div>
+                <button class="btn btn-primary product-button" onclick="personalizarProducto(2)">Personalizar</button>
+              </div>
+            </div>
+            
+            <!-- Producto 3 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="images/image_1745815256975.png" alt="Playera Cuello Redondo Manga Larga Caballero">
+                <div class="product-badge">Nuevo</div>
+              </div>
+              <div class="product-info">
+                <div class="product-category-tag">Playeras Sublimación</div>
+                <h4 class="product-title">Playera Cuello Redondo Manga Larga Caballero</h4>
+                <p class="product-description">Comodidad y estilo en todas las temporadas.</p>
+                <div class="product-price">
+                  <span class="current-price">$220 MXN</span>
+                </div>
+                <button class="btn btn-primary product-button" onclick="personalizarProducto(3)">Personalizar</button>
+              </div>
+            </div>
+            
+            <!-- Producto 4 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="images/image_1745815268901.png" alt="Playera Cuello Redondo Manga Corta Niños">
+              </div>
+              <div class="product-info">
+                <div class="product-category-tag">Playeras Sublimación</div>
+                <h4 class="product-title">Playera Cuello Redondo Manga Corta Niños</h4>
+                <p class="product-description">Tamaños para niños de 2 a 12 años. Diseños divertidos.</p>
+                <div class="product-price">
+                  <span class="current-price">$180 MXN</span>
+                </div>
+                <button class="btn btn-primary product-button" onclick="personalizarProducto(4)">Personalizar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Categoría: Tazas Personalizadas -->
+        <div class="product-category">
+          <h3 class="category-title">Tazas Personalizadas</h3>
+          
+          <div class="products-grid">
+            <!-- Producto 1 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="images/image_1745815290230.png" alt="Taza de Cerámica Tradicional 11 Oz">
+                <div class="product-badge">Popular</div>
+              </div>
+              <div class="product-info">
+                <div class="product-category-tag">Tazas</div>
+                <h4 class="product-title">Taza de Cerámica Tradicional 11 Oz</h4>
+                <p class="product-description">Cerámica de alta calidad, resistente al microondas y lavavajillas.</p>
+                <div class="product-price">
+                  <span class="current-price">$100 MXN</span>
+                  <span class="original-price">$120 MXN</span>
+                </div>
+                <button class="btn btn-primary product-button" onclick="personalizarProducto(9)">Personalizar</button>
+              </div>
+            </div>
+            
+            <!-- Producto 2 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="images/image_1745815305739.png" alt="Taza Mágica Cambiante con Calor 12 Oz">
+              </div>
+              <div class="product-info">
+                <div class="product-category-tag">Tazas</div>
+                <h4 class="product-title">Taza Mágica Cambiante con Calor 12 Oz</h4>
+                <p class="product-description">Cambia de color con el calor. ¡Sorprende a tus clientes!</p>
+                <div class="product-price">
+                  <span class="current-price">$150 MXN</span>
+                </div>
+                <button class="btn btn-primary product-button" onclick="personalizarProducto(10)">Personalizar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Sección de Servicios -->
+      <section id="servicios" class="section">
+        <div class="section-header">
+          <h2 class="section-title">Nuestros Servicios</h2>
+          <div class="title-underline"></div>
+        </div>
+        
+        <div class="services-container">
+          <!-- Servicio 1 -->
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-tshirt"></i>
+            </div>
+            <h3>Sublimación Textil</h3>
+            <p>Personalizamos prendas con tus diseños favoritos utilizando la mejor tecnología de impresión.</p>
+          </div>
+          
+          <!-- Servicio 2 -->
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-mug-hot"></i>
+            </div>
+            <h3>Artículos Promocionales</h3>
+            <p>Tazas, termos, portavasos y más artículos con tu diseño para regalo o promoción.</p>
+          </div>
+          
+          <!-- Servicio 3 -->
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-print"></i>
+            </div>
+            <h3>Impresión DTF</h3>
+            <p>La última tecnología en impresión textil que permite estampar en casi cualquier tipo de tela.</p>
+          </div>
+          
+          <!-- Servicio 4 -->
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-tags"></i>
+            </div>
+            <h3>Diseño Personalizado</h3>
+            <p>Creamos diseños exclusivos según tus necesidades para cualquier tipo de producto.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección de Proceso -->
+      <section id="proceso" class="section">
+        <div class="section-header">
+          <h2 class="section-title">Nuestro Proceso</h2>
+          <div class="title-underline"></div>
+        </div>
+        
+        <div class="process-steps">
+          <!-- Paso 1 -->
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <h3 class="step-title">Consulta</h3>
+            <p class="step-description">Platicamos sobre tu proyecto y necesidades</p>
+          </div>
+          
+          <!-- Paso 2 -->
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <h3 class="step-title">Diseño</h3>
+            <p class="step-description">Creamos propuestas personalizadas</p>
+          </div>
+          
+          <!-- Paso 3 -->
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <h3 class="step-title">Aprobación</h3>
+            <p class="step-description">Revisamos y ajustamos según tus comentarios</p>
+          </div>
+          
+          <!-- Paso 4 -->
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <h3 class="step-title">Producción</h3>
+            <p class="step-description">Fabricamos tus productos con la más alta calidad</p>
+          </div>
+          
+          <!-- Paso 5 -->
+          <div class="process-step">
+            <div class="step-number">5</div>
+            <h3 class="step-title">Entrega</h3>
+            <p class="step-description">Recibes tus productos listos para usar</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Sección de Galería -->
+      <section id="galeria" class="section">
+        <div class="section-header">
+          <h2 class="section-title">Galería de Trabajos</h2>
+          <div class="title-underline"></div>
+        </div>
+        
+        <div class="gallery-grid">
+          <div class="gallery-item">
+            <img src="images/image_1745815256975.png" alt="Trabajo 1">
+          </div>
+          <div class="gallery-item">
+            <img src="images/image_1745815268901.png" alt="Trabajo 2">
+          </div>
+          <div class="gallery-item">
+            <img src="images/image_1745815290230.png" alt="Trabajo 3">
+          </div>
+          <div class="gallery-item">
+            <img src="images/image_1745815305739.png" alt="Trabajo 4">
+          </div>
+        </div>
+      </section>
+      
+      <!-- Sección de Testimonios -->
+      <section id="testimonios" class="section">
+        <div class="section-header">
+          <h2 class="section-title">Lo Que Opinan Nuestros Clientes</h2>
+          <div class="title-underline"></div>
+        </div>
+        
+        <div class="testimonials-container">
+          <!-- Testimonio 1 -->
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">"Excelente servicio y calidad de impresión. Las playeras quedaron increíbles y en tiempo récord. Muy profesionales."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">
+                <img src="images/image_1745817036980.png" alt="Cliente">
+              </div>
+              <div class="testimonial-info">
+                <h4>Laura Martínez</h4>
+                <p>Cliente Frecuente</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Testimonio 2 -->
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">"Las tazas personalizadas que pedí para mi negocio son de excelente calidad. Mis clientes están encantados con ellas."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">
+                <img src="images/image_1745817200020.png" alt="Cliente">
+              </div>
+              <div class="testimonial-info">
+                <h4>Carlos Ruiz</h4>
+                <p>Dueño de Cafetería</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Testimonio 3 -->
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <p class="testimonial-text">"El proceso de personalización fue muy sencillo y el resultado final superó mis expectativas. Definitivamente volveré a comprar."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">
+                <img src="images/image_1745817329687.png" alt="Cliente">
+              </div>
+              <div class="testimonial-info">
+                <h4>Ana García</h4>
+                <p>Cliente Nuevo</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección Sobre Nosotros -->
+      <section id="nosotros" class="section">
+        <div class="section-header">
+          <h2 class="section-title">Sobre Nosotros</h2>
+          <div class="title-underline"></div>
+        </div>
+        
+        <div class="about-content">
+          <div class="about-text">
+            <p>En Croma Studio nos dedicamos a crear productos personalizados de alta calidad. Nuestra pasión es transformar ideas en realidad a través de técnicas avanzadas de sublimación y DTF.</p>
+            <p>Con más de 5 años de experiencia en el mercado, garantizamos la mejor calidad y atención personalizada para cada cliente.</p>
+          </div>
+          
+          <div class="values-grid">
+            <!-- Valor 1 -->
+            <div class="value-card">
+              <div class="value-icon">
+                <i class="fas fa-award"></i>
+              </div>
+              <h3>Calidad</h3>
+              <p>Utilizamos los mejores materiales y técnicas para garantizar la durabilidad de nuestros productos.</p>
+            </div>
+            
+            <!-- Valor 2 -->
+            <div class="value-card">
+              <div class="value-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+              <h3>Pasión</h3>
+              <p>Amamos lo que hacemos y ponemos todo nuestro esfuerzo en cada proyecto.</p>
+            </div>
+            
+            <!-- Valor 3 -->
+            <div class="value-card">
+              <div class="value-icon">
+                <i class="fas fa-rocket"></i>
+              </div>
+              <h3>Innovación</h3>
+              <p>Constantemente nos actualizamos con las últimas tecnologías del mercado.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección de Contacto -->
+      <section id="contacto" class="section">
+        <div class="section-header">
+          <h2 class="section-title">Contáctanos</h2>
+          <div class="title-underline"></div>
+        </div>
+        
+        <div class="contact-container">
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-phone"></i>
+              <p>5542424621</p>
+            </div>
+            
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <p>info@cromastudio.mx</p>
+            </div>
+            
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <p>Ciudad de México, México</p>
+            </div>
+            
+            <div class="social-links">
+              <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+              <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+              <a href="https://wa.me/5215542424621" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+          
+          <div class="contact-form">
+            <button class="btn btn-primary btn-block" onclick="abrirWhatsApp('Consulta general')">
+              <i class="fab fa-whatsapp"></i>
+              Contáctanos por WhatsApp
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="logo-circle">
+              <img src="images/logo.jpg" alt="Croma Studio Logo">
+            </div>
+            <p>Croma Studio</p>
+          </div>
+          
+          <div class="footer-links">
+            <ul>
+              <li><a href="#inicio">Inicio</a></li>
+              <li><a href="#productos">Productos</a></li>
+              <li><a href="#servicios">Servicios</a></li>
+              <li><a href="#proceso">Proceso</a></li>
+              <li><a href="#galeria">Galería</a></li>
+              <li><a href="#testimonios">Testimonios</a></li>
+              <li><a href="#nosotros">Nosotros</a></li>
+              <li><a href="#contacto">Contacto</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2024 Croma Studio. Todos los derechos reservados.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Modal de Personalización -->
+    <div id="personalizacion-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Personaliza tu Producto</h3>
+          <button class="close-button" onclick="cerrarModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="product-details">
+            <div class="product-image">
+              <img id="modal-product-image" src="" alt="Producto">
+              <div id="modal-product-badge" class="product-badge"></div>
+            </div>
+            
+            <div class="product-info">
+              <div id="modal-product-category" class="product-category-tag"></div>
+              <h4 id="modal-product-title" class="product-title"></h4>
+              <p id="modal-product-description" class="product-description"></p>
+              <div class="product-price">
+                <span id="modal-product-price" class="current-price"></span>
+                <span id="modal-product-original-price" class="original-price"></span>
+              </div>
+            </div>
+          </div>
+          
+          <form id="personalizacion-form" class="personalizacion-form">
+            <div id="talla-container" class="form-group">
+              <label>Talla</label>
+              <div class="options-group">
+                <button type="button" class="option-button selected" data-value="S">S</button>
+                <button type="button" class="option-button" data-value="M">M</button>
+                <button type="button" class="option-button" data-value="L">L</button>
+                <button type="button" class="option-button" data-value="XL">XL</button>
+                <button type="button" class="option-button" data-value="XXL">XXL</button>
+              </div>
+            </div>
+            
+            <div id="color-container" class="form-group">
+              <label>Color</label>
+              <div class="options-group">
+                <button type="button" class="option-button selected" data-value="Blanco">Blanco</button>
+                <button type="button" class="option-button" data-value="Negro">Negro</button>
+                <button type="button" class="option-button" data-value="Gris">Gris</button>
+                <button type="button" class="option-button" data-value="Azul">Azul</button>
+                <button type="button" class="option-button" data-value="Rojo">Rojo</button>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label>Imagen o Diseño (URL)</label>
+              <input type="text" id="imagen-url" placeholder="Pega el enlace a tu imagen o diseño">
+              <p class="form-help">También puedes enviarnos tu imagen por WhatsApp después de hacer el pedido</p>
+            </div>
+            
+            <div class="form-group">
+              <label>Instrucciones Especiales</label>
+              <textarea id="instrucciones" placeholder="Añade detalles específicos sobre tu personalización"></textarea>
+            </div>
+            
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+              <button type="button" class="btn btn-primary" onclick="agregarAlCarrito()">Agregar al Carrito</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

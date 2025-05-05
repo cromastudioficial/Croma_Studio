@@ -1,0 +1,132 @@
+================================
+GUÍA PARA MODIFICAR TU SITIO WEB
+================================
+
+Esta guía te ayudará a modificar fácilmente tu sitio web sin necesidad de conocimientos técnicos avanzados.
+
+PASOS SIMPLES:
+-------------
+
+1. ABRE EL ARCHIVO "index.html" con cualquier editor de texto o con Visual Studio Code.
+
+2. MODIFICA LOS TEXTOS directamente donde aparecen en el código HTML.
+
+3. EDITA LAS IMÁGENES colocando tus propias imágenes en la carpeta "images" y cambiando las rutas en el código.
+
+4. CAMBIA LOS DATOS DE CONTACTO en la sección correspondiente.
+
+5. GUARDA LOS CAMBIOS y abre el archivo index.html en tu navegador para ver los resultados.
+
+==============================
+SECCIONES QUE PUEDES MODIFICAR
+==============================
+
+TÍTULO DEL SITIO:
+----------------
+Busca la línea: <title>Croma Studio | Sublimación Profesional</title>
+
+
+MENÚ DE NAVEGACIÓN:
+-----------------
+Puedes añadir o quitar opciones en la sección:
+<nav class="nav-menu">
+  <ul>
+    <li><a href="#hero" class="nav-link">Inicio</a></li>
+    ...
+  </ul>
+</nav>
+
+
+SECCIÓN PRINCIPAL (HERO):
+-----------------------
+Cambia el título principal:
+<h1 class="hero-title typing-effect">CROMA STUDIO</h1>
+
+Cambia la descripción:
+<p class="hero-subtitle">Transformamos tus ideas en productos únicos...</p>
+
+Cambia los textos de los botones:
+<a href="#products" class="btn btn-primary shine-effect">Ver catálogo</a>
+<a href="#contact" class="btn btn-secondary shine-effect">Contacto</a>
+
+
+SERVICIOS:
+---------
+Añade, elimina o modifica servicios en la sección:
+<section id="services" class="section">
+
+Cada servicio sigue este formato:
+<div class="service-card animate-on-scroll">
+  <div class="service-icon">
+    <i class="fas fa-tshirt"></i>  <!-- ÍCONO: busca más en https://fontawesome.com/icons -->
+  </div>
+  <h3>Sublimación Textil</h3>
+  <p>Personalizamos prendas con tus diseños favoritos...</p>
+</div>
+
+
+PRODUCTOS:
+---------
+Añade o modifica categorías de productos y productos individuales:
+<section id="products" class="section">
+
+Cada producto sigue este formato:
+<div class="product-card">
+  <div class="product-image">
+    <img src="images/playera1.jpg" alt="Playera Personalizada">
+  </div>
+  <div class="product-info">
+    <h4>Playera Básica</h4>
+    <p>Personalizada con tu diseño favorito</p>
+    <div class="product-price">$180 MXN</div>
+    <button class="btn btn-primary personalizar-btn" onclick="abrirWhatsApp('Playera Básica')">Personalizar</button>
+  </div>
+</div>
+
+
+CONTACTO:
+--------
+Modifica tu información de contacto:
+<div class="contact-info animate-on-scroll">
+  <div class="contact-item">
+    <i class="fas fa-phone"></i>
+    <p>5542424621</p>
+  </div>
+  ...
+</div>
+
+Y los enlaces a redes sociales:
+<div class="social-links">
+  <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+  ...
+</div>
+
+
+PIE DE PÁGINA:
+------------
+Actualiza el copyright:
+<p>&copy; 2024 Croma Studio. Todos los derechos reservados.</p>
+
+
+==============================
+CONSEJOS ADICIONALES
+==============================
+
+1. IMÁGENES:
+   * Coloca todas tus imágenes en la carpeta "images"
+   * Usa formatos .jpg o .png
+   * Optimiza el tamaño de tus imágenes para mejor rendimiento
+
+2. ÍCONOS:
+   * Puedes buscar íconos en FontAwesome: https://fontawesome.com/icons
+   * Copia el código HTML del ícono y reemplázalo en tu código
+
+3. COLORES:
+   * Para modificar los colores, edita el archivo css/estilos.css
+   * Busca la sección :root { ... } al inicio del archivo
+
+4. ENLACES:
+   * Para agregar enlaces a WhatsApp, usa:
+     onclick="abrirWhatsApp('Nombre del producto')"
+
+¡Listo! Ahora puedes personalizar fácilmente tu sitio web.
