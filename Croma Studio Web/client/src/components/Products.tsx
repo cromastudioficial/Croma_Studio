@@ -171,8 +171,8 @@ const Products = () => {
           category: 'Playeras Sublimación',
           title: 'Playera Cuello Redondo Manga Corta Dama',
           description: '100% poliéster, ideal para sublimación. Colores vibrantes que duran.',
-          price: 180,
-          originalPrice: 220,
+          price: 180-250,
+          originalPrice: 250,
           badge: 'Popular',
           image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
         },
@@ -182,7 +182,8 @@ const Products = () => {
           title: 'Playera Tipo Polo Manga Corta Caballero',
           description: 'Estilo clásico, 100% poliéster. Perfecta para diseños complejos.',
           price: 250,
-          originalPrice: 290,
+          originalPrice: 390,
+          badge: 'Nuevo',
           image: 'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
         },
         {
@@ -190,7 +191,7 @@ const Products = () => {
           category: 'Playeras Sublimación',
           title: 'Playera Cuello Redondo Manga Larga Caballero',
           description: 'Comodidad y estilo en todas las temporadas.',
-          price: 220,
+          price: 350,
           badge: 'Nuevo',
           image: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
         },
@@ -200,6 +201,7 @@ const Products = () => {
           title: 'Playera Cuello Redondo Manga Corta Niños',
           description: 'Tamaños para niños de 2 a 12 años. Diseños divertidos.',
           price: 180,
+          originalPrice: 220,
           image: 'https://images.unsplash.com/photo-1520006403909-838d6b92c22e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
         }
       ]
