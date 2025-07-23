@@ -4,7 +4,7 @@ const Gallery = () => {
   const galleryItems = [
     {
       id: 1,
-      image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      image: 'https://calate.mx/wp-content/uploads/2023/03/PlayeraPersonalizadaMonterreyEconomica.jpg',
       category: 'Playeras'
     },
     {
