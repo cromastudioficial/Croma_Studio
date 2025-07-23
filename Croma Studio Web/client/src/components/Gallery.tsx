@@ -9,23 +9,23 @@ const Gallery = () => {
     },
     {
       id: 2,
-      image: 'https://images.unsplash.com/photo-1577741314755-048d8525d31e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      image: 'https://http2.mlstatic.com/D_NQ_NP_685397-MLM79723788122_102024-O-60-recuerdos-tazas-sublimadas-recuerdo-de-cancun-recuerdos.webp',
       category: 'Tazas'
     },
     {
       id: 3,
-      image: 'https://images.unsplash.com/photo-1575377222312-dd1a63a51638?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      image: 'https://i0.wp.com/todoslosproductosmx.com/wp-content/uploads/2024/04/400ml-4.jpg?fit=2000%2C2000&ssl=1',
       category: 'Termos'
     },
     {
       id: 4,
-      image: 'https://images.unsplash.com/photo-1520006403909-838d6b92c22e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      image: 'https://http2.mlstatic.com/D_NQ_NP_803860-MLM75408129279_032024-O-combo-playeras-bluey-y-bingo-familia-cumpleanos-regalo.webp',
       category: 'Playeras para niños'
     },
     {
       id: 5,
-      image: 'https://images.unsplash.com/photo-1572119865084-43c285814d63?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-      category: 'Tazas'
+      image: 'https://www.subli-star.com/wp-content/uploads/transfers-for-hats.png',
+      category: 'Gorras'
     }
   ];
 
