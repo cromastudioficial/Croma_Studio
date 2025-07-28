@@ -168,41 +168,41 @@ const Products = () => {
       products: [
         {
           id: 1,
-          category: 'Playeras Sublimación',
-          title: 'Playera Cuello Redondo Manga Corta Dama',
+          category: 'Playeras Sublimación logo pequeño',
+          title: 'Playera Unisex',
           description: '100% poliéster, ideal para sublimación. Colores vibrantes que duran.',
-          price: 180-250,
-          originalPrice: 250,
+          price: 120,
+          originalPrice: 145,
           badge: 'Popular',
-          image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          image: 'https://maywayul.com/wp-content/uploads/2021/03/Playera-sublimada-con-diseno-de-corazon-scaled-1.png'
         },
         {
           id: 2,
-          category: 'Playeras Sublimación',
-          title: 'Playera Tipo Polo Manga Corta Caballero',
+          category: 'Playeras Sublimación un solo lado',
+          title: 'Playera Unisex',
           description: 'Estilo clásico, 100% poliéster. Perfecta para diseños complejos.',
-          price: 250,
-          originalPrice: 390,
+          price: 150,
+          originalPrice: 170,
           badge: 'Nuevo',
-          image: 'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          image: 'https://supercreativa.com.mx/wp-content/uploads/2021/03/Create-your-future.jpg'
         },
         {
           id: 3,
-          category: 'Playeras Sublimación',
-          title: 'Playera Cuello Redondo Manga Larga Caballero',
+          category: 'Playeras Sublimación ambos lados',
+          title: 'Playera Unisex',
           description: 'Comodidad y estilo en todas las temporadas.',
-          price: 350,
+          price: 195,
           badge: 'Nuevo',
-          image: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          image: 'https://www.printfresh.com.gt/wp-content/uploads/2022/05/playera-unionista.png'
         },
         {
           id: 4,
-          category: 'Playeras Sublimación',
-          title: 'Playera Cuello Redondo Manga Corta Niños',
-          description: 'Tamaños para niños de 2 a 12 años. Diseños divertidos.',
-          price: 180,
-          originalPrice: 220,
-          image: 'https://images.unsplash.com/photo-1520006403909-838d6b92c22e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          category: 'Playeras Sublimación ambos lados',
+          title: 'Playera Cuello Redondo Manga larga',
+          description: 'Comodidad y estilo en todas las temporadas.',
+          price: 200,
+          originalPrice: 230,
+          image: 'https://http2.mlstatic.com/D_NQ_NP_670859-MLM71757468312_092023-O-playera-sublimada-full-print-personalizada-manga-larga.webp'
         }
       ]
     },
@@ -212,79 +212,79 @@ const Products = () => {
       products: [
         {
           id: 5,
-          category: 'Playeras DTF',
-          title: 'Playera Cuello Redondo Manga Corta Dama (DTF)',
+          category: 'Playeras DTF logo pequeño',
+          title: 'Playera Cuello Redondo Manga Corta (DTF)',
           description: 'Algodón o poliéster, alta calidad de impresión.',
-          price: 180,
-          originalPrice: 220,
+          price: 190,
+          originalPrice: 215,
           badge: 'Popular',
-          image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          image: 'https://http2.mlstatic.com/D_NQ_NP_949469-MLM45445549036_042021-O-playera-con-mi-logo-mi-marca-playera-empresa-personalizada.webp'
         },
         {
           id: 6,
-          category: 'Playeras DTF',
-          title: 'Playera Cuello Redondo Manga Corta Caballero (DTF)',
+          category: 'Playeras DTF un solo lado',
+          title: 'Playera Cuello Redondo Manga Corta (DTF)',
           description: 'Algodón o poliéster, gran durabilidad.',
-          price: 200,
-          originalPrice: 240,
-          image: 'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          price: 210,
+          originalPrice: 230,
+          image: 'https://http2.mlstatic.com/D_NQ_NP_985371-MLM75121291558_032024-O-playera-personalizada-cualquier-mandanos-tu-diseno.webp'
         },
         {
           id: 7,
-          category: 'Playeras DTF',
-          title: 'Playera Cuello Redondo Manga Larga Caballero (DTF)',
+          category: 'Playeras DTF ambos lados',
+          title: 'Playera Cuello Redondo (DTF)',
           description: 'Algodón o poliéster, ideal para todas las temporadas.',
-          price: 250,
-          image: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          price: 245,
+          image: 'https://promoscreativos.com/wp-content/uploads/2024/04/Playeras-personalizadas-en-DTF.jpg'
         },
         {
           id: 8,
-          category: 'Playeras DTF',
-          title: 'Playera Cuello Redondo Manga Larga Dama (DTF)',
+          category: 'Playeras DTF oversize',
+          title: 'Playera Cuello Redondo (DTF)',
           description: 'Algodón o poliéster, comodidad y estilo.',
-          price: 230,
-          image: 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          price: 350,
+          image: 'https://http2.mlstatic.com/D_NQ_NP_697454-MLM85733256850_062025-O.webp'
         }
       ]
     },
     {
       id: "tazas",
-      title: "Tazas Personalizadas",
+      title: "Tazas y termos Personalizadas",
       products: [
         {
           id: 9,
-          category: 'Tazas',
+          category: 'Taza blanca',
           title: 'Taza de Cerámica Tradicional 11 Oz',
           description: 'Cerámica de alta calidad, resistente al microondas y lavavajillas.',
-          price: 100,
-          originalPrice: 120,
+          price: 85,
+          originalPrice: 100,
           badge: 'Popular',
-          image: 'https://images.unsplash.com/photo-1577741314755-048d8525d31e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          image: 'https://printdepot.com.mx/wp-content/uploads/2024/11/TAZA-personalizada-monterrey-economicas.png'
         },
         {
           id: 10,
-          category: 'Tazas',
-          title: 'Taza Mágica Cambiante con Calor 12 Oz',
-          description: 'Cambia de color con el calor. Sorprende a tus clientes!',
-          price: 150,
-          image: 'https://images.unsplash.com/photo-1572119865084-43c285814d63?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          category: 'Tazas bicolor',
+          title: 'Taza de Cerámica bicolor 11 Oz',
+          description: 'Sorprende a tus clientes!',
+          price: 95,
+          image: 'https://mecolour.com.mx/wp-content/uploads/2024/01/Taza-con-interior-y-asa-de-color-Verde-oscuro-2.jpg'
         },
         {
           id: 11,
-          category: 'Tazas',
-          title: 'Taza con Cuchara 11 Oz',
-          description: 'Incluye cuchara integrada. Ideal para café o té.',
+          category: 'Termo',
+          title: 'Termo sublimado',
+          description: 'Ideal para café o té.',
           price: 130,
-          image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          image: 'https://gpspromocionales.com.mx/data/images/products/1655749463-12042022210135_SB19esq_n2.jpg.jpg'
         },
         {
           id: 12,
-          category: 'Tazas',
-          title: 'Vaso de Cerámica con Tapa 12 Oz',
-          description: 'Tapa de silicón antiderrames. Perfecto para viajes.',
-          price: 140,
+          category: 'Termo a Laser',
+          title: 'Termo con grabado laser',
+          description: 'Perfecto para viajes.',
+          price: 300,
           badge: 'Nuevo',
-          image: 'https://images.unsplash.com/photo-1595424265369-0781a1a4c193?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+          image: 'https://innovaprintonline.mx/cdn/shop/files/Grabado_Laser_de_Nombre_en_Termo_-_innpresiona-7406721.webp?v=1738956045'
         }
       ]
     }
